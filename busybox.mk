@@ -11,7 +11,7 @@ busybox.$(VERSION).install.lock: busybox.$(VERSION).build.lock
 	touch $@
 
 busybox.$(VERSION).build.lock: busybox.$(VERSION).configure.lock
-	cd $(S) && make -j16
+	cd $(S) && make -j16 CROSS_COMPILE=$(CROSS_COMPILE)
 	touch $@
 
 busybox.$(VERSION).configure.lock: busybox.$(VERSION).fetch.lock

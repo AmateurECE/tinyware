@@ -12,6 +12,7 @@ Start a container using our new image and run the Makefile with the
 `beaglebone` target to build the beaglebone image.
 
 ```bash-session
+host$ mkdir build && chown 66535 build
 host$ podman run -it -v /home/edtwardy/Git/sesg-drivers:/home/kernel kernel-factory:latest
 container$ make MACHINE=beaglebone
 ```
