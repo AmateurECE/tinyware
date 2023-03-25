@@ -20,10 +20,13 @@ glibc.$(VERSION).build.lock: glibc.$(VERSION).configure.lock
 
 glibc.$(VERSION).configure.lock: glibc.$(VERSION).fetch.lock
 	mkdir -p $(B)
-	cd $(B) \
-		&& printf '%s\n' $(CONFIG) > configparms \
-		&& $(S)/configure --prefix= --host=$(ARCH)-linux-gnu \
-			--build=$$(uname -m)-linux-gnu libc_cv_gnu_retain=no
+	cd $(B) && printf '%s\n' $(CONFIG) > configparms
+	cd $(B) && $(S)/configure \
+		--prefix= \
+		--host=$(ARCH)-linux-gnu \
+		--build=$$(uname -m)-linux-gnu \
+		--without-selinux \
+		libc_cv_gnu_retain=no
 	touch $@
 
 glibc.$(VERSION).fetch.lock:
