@@ -6,6 +6,9 @@ without a login prompt. It has no networking or display capability. Currently,
 the only supported platforms are the BeagleBone Black and QEMU x86_64 virtual
 machines.
 
+The artifacts build in as little as 3 minutes, and boot in as little as 2
+seconds!
+
 The BeagleBone image exposes a USB Mass Storage endpoint for sharing files
 between a development machine and the target, and the QEMU build accomplishes
 the same using `virtfs`.

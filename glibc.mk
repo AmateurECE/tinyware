@@ -4,6 +4,11 @@ ifeq (arm,$(ARCH))
 # a big-endian, 32-bit machine.
 CONFIG+=CC="$(CROSS_COMPILE)gcc -mbe32"
 CONFIG+=CXX="$(CROSS_COMPILE)g++ -mbe32"
+
+EXTRA_CONF=libc_cv_gnu_retain=no
+HOST=arm-linux-gnueabihf
+else
+HOST=$(ARCH)-linux-gnu
 endif
 
 VERSION=2.37
@@ -17,7 +22,7 @@ CONFIG+=rtlddir=/lib64 BUILD_CC=gcc
 all: glibc.$(VERSION).install.lock
 
 glibc.$(VERSION).install.lock: glibc.$(VERSION).build.lock
-	cd $(B) && make install ARCH=$(ARCH) DESTDIR=$(D)
+	cd $(B) && make install ARCH=$(ARCH) DESTDIR=$(P)
 	touch $@
 
 glibc.$(VERSION).build.lock: glibc.$(VERSION).configure.lock
@@ -29,11 +34,10 @@ glibc.$(VERSION).configure.lock: $(F)/glibc.$(VERSION).fetch.lock
 	cd $(B) && printf '%s\n' $(CONFIG) > configparms
 	cd $(B) && $(S)/configure \
 		--prefix= \
-		--host=$(ARCH)-linux-gnu \
+		--host=$(HOST) \
 		--build=$$(uname -m)-linux-gnu \
 		--with-headers=$(SYSROOT)/include \
-		--without-selinux \
-		libc_cv_gnu_retain=no
+		--without-selinux $(EXTRA_CONF)
 	touch $@
 
 $(F)/glibc.$(VERSION).fetch.lock:

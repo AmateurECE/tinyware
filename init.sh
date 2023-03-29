@@ -1,5 +1,5 @@
 #!/bin/busybox sh
-mount -t sys none /sys
+mount -t sysfs none /sys
 mount -t proc none /proc
 mount -t devtmpfs none /dev
 
