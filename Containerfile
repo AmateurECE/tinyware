@@ -14,13 +14,14 @@ RUN apt update && apt install -y \
         dfu-util \
         efitools \
         flex \
-        g++-arm-linux-gnueabi \
+        g++-arm-linux-gnueabihf \
+        g++-x86-64-linux-gnu \
         gawk \
-        gcc-arm-linux-gnueabi \
         gdisk \
         git \
         graphviz \
         imagemagick \
+        libelf-dev \
         libgnutls28-dev \
         libguestfs-tools \
         liblz4-tool \
@@ -47,6 +48,7 @@ RUN apt update && apt install -y \
         python3-subunit \
         python3-testtools \
         python3-virtualenv \
+        rsync \
         swig \
         uuid-dev
 WORKDIR /root

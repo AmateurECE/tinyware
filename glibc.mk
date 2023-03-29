@@ -1,12 +1,18 @@
 
+ifeq (arm,$(ARCH))
+# For compiling on arm, we have to explicitly tell gcc/g++ we're compiling for
+# a big-endian, 32-bit machine.
+CONFIG+=CC="$(CROSS_COMPILE)gcc -mbe32"
+CONFIG+=CXX="$(CROSS_COMPILE)g++ -mbe32"
+endif
+
 VERSION=2.37
 ARCHIVE="glibc-$(VERSION).tar.xz"
 URL="http://ftp.gnu.org/gnu/glibc/$(ARCHIVE)"
-S:=$(ROOT)/glibc-$(VERSION)
+S:=$(F)/glibc-$(VERSION)
 B:=$(ROOT)/build
 
-CONFIG=rtlddir=/lib64 CC="$(CROSS_COMPILE)gcc -mbe32" BUILD_CC=gcc \
-	CXX="$(CROSS_COMPILE)g++ -mbe32"
+CONFIG+=rtlddir=/lib64 BUILD_CC=gcc
 
 all: glibc.$(VERSION).install.lock
 
@@ -18,18 +24,19 @@ glibc.$(VERSION).build.lock: glibc.$(VERSION).configure.lock
 	cd $(B) && make -j16
 	touch $@
 
-glibc.$(VERSION).configure.lock: glibc.$(VERSION).fetch.lock
+glibc.$(VERSION).configure.lock: $(F)/glibc.$(VERSION).fetch.lock
 	mkdir -p $(B)
 	cd $(B) && printf '%s\n' $(CONFIG) > configparms
 	cd $(B) && $(S)/configure \
 		--prefix= \
 		--host=$(ARCH)-linux-gnu \
 		--build=$$(uname -m)-linux-gnu \
+		--with-headers=$(SYSROOT)/include \
 		--without-selinux \
 		libc_cv_gnu_retain=no
 	touch $@
 
-glibc.$(VERSION).fetch.lock:
-	curl -LO $(URL)
-	tar xvf $(ARCHIVE)
+$(F)/glibc.$(VERSION).fetch.lock:
+	cd $(F) && curl -LO $(URL)
+	cd $(F) && tar xvf $(ARCHIVE)
 	touch $@
