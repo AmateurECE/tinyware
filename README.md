@@ -42,3 +42,12 @@ console on the target to the serial port `/dev/ttyS0`, which is backed by a
 UNIX socket on the host. To connect to this serial port on the host, configure
 `minicom(1)` or your serial terminal of choice to use the UNIX socket at
 `${XDG_RUNTIME_DIR}/qemu-console.sock`.
+
+# Booting the BeagleBone
+
+The generated image should be `dd`-copied to an SD-card. By default, the
+BeagleBone Black boot ROM will attempt to boot the on-board eMMC (MMC1) first.
+To override this, use the boot select pushbutton (S2) to request that the boot
+ROM try booting from the SD card first. The value of S2 is latched after POR,
+so this switch must be pressed when power is applied to the processor, and the
+setting will persist if the reset button (S1) is pushed.

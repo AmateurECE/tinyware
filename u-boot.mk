@@ -6,7 +6,8 @@ B:=$(ROOT)/build
 all: u-boot.$(VERSION).deploy.lock
 
 u-boot.$(VERSION).deploy.lock: u-boot.$(VERSION).build.lock
-	cp $(B)/u-boot.img $(D)/
+	: # Invoke the machine-dependent image build script
+	$(MAKE) -f $(IMAGE_BUILD) B=$(B) D=$(D)
 	touch $@
 
 u-boot.$(VERSION).build.lock: u-boot.$(VERSION).configure.lock

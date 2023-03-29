@@ -57,7 +57,7 @@ $(B)/u-boot.lock: $(B) $(D) $(F)
 	$(MAKE) -C $(B)/u-boot -f $(S)/u-boot.mk \
 		ROOT=$(B)/u-boot D=$(D) F=$(F) \
 		CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) \
-		CONFIG=$(UBOOT_CONFIG)
+		CONFIG=$(UBOOT_CONFIG) IMAGE_BUILD=$(S)/$(MACHINE).mk
 
 $(B)/busybox.lock: $(B) $(P) $(F)
 	mkdir -p $(B)/busybox
