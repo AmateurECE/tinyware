@@ -4,8 +4,6 @@ ifeq (arm,$(ARCH))
 # a big-endian, 32-bit machine.
 CONFIG+=CC="$(CROSS_COMPILE)gcc -mbe32"
 CONFIG+=CXX="$(CROSS_COMPILE)g++ -mbe32"
-
-EXTRA_CONF=libc_cv_gnu_retain=no
 HOST=arm-linux-gnueabihf
 else
 HOST=$(ARCH)-linux-gnu
@@ -37,7 +35,7 @@ glibc.$(VERSION).configure.lock: $(F)/glibc.$(VERSION).fetch.lock
 		--host=$(HOST) \
 		--build=$$(uname -m)-linux-gnu \
 		--with-headers=$(SYSROOT)/include \
-		--without-selinux $(EXTRA_CONF)
+		--without-selinux
 	touch $@
 
 $(F)/glibc.$(VERSION).fetch.lock:

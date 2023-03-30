@@ -1,22 +1,5 @@
 
-# Makefile for the minimal distribution
-
-ifeq (boneblack,$(MACHINE))
-ARCH:=arm
-DTB:=am335x-boneblack.dtb
-KERNEL_CONFIG:=omap2plus_defconfig
-UBOOT_CONFIG:=am335x_evm_defconfig
-CROSS_COMPILE:=arm-linux-gnueabihf-
-
-# boneblack config also depends on u-boot
-PACKAGES:=u-boot
-else ifeq (qemu,$(MACHINE))
-ARCH:=x86_64
-KERNEL_CONFIG:=defconfig
-CROSS_COMPILE=x86_64-linux-gnu-
-else
-$(error "Set the variable MACHINE to be one of {qemu,boneblack}")
-endif
+include config.mk
 
 # Root build directory
 B:=$(shell realpath -m build/$(MACHINE))
@@ -26,7 +9,7 @@ S:=$(PWD)
 D:=$(shell realpath -m build/$(MACHINE)/deploy)
 # Package directory, where packages are installed to be staged for rootfs
 # creation
-P:=$(shell realpath -m build/$(MACHINE)/package)
+P:=$(shell realpath -m build/$(MACHINE)/root)
 # Fetch directory, where sources are cloned to
 F:=$(shell realpath -m build/sources)
 # Sysroot, a location to install dependencies for cross compilation
