@@ -4,6 +4,7 @@ ARCH:=arm
 DTB:=am335x-boneblack.dtb
 KERNEL_CONFIG:=omap2plus_defconfig
 UBOOT_CONFIG:=am335x_evm_defconfig
+UBOOT_CUSTOM_CONFIG:=$(S)/boneblack.config
 CROSS_COMPILE:=arm-linux-gnueabihf-
 
 # boneblack config also depends on u-boot

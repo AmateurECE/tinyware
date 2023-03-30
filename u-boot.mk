@@ -16,7 +16,12 @@ u-boot.$(VERSION).build.lock: u-boot.$(VERSION).configure.lock
 
 u-boot.$(VERSION).configure.lock: $(F)/u-boot.$(VERSION).fetch.lock
 	mkdir -p $(B)
-	cd $(S) && make ARCH=$(ARCH) O=$(B) $(CONFIG)
+	cd $(S) && make ARCH=$(ARCH) O=$(B) $(DEFCONFIG)
+	if test -n $(CUSTOM_CONFIG); then \
+		cd $(B) && $(S)/scripts/kconfig/merge_config.sh \
+			$(B)/.config \
+			$(CUSTOM_CONFIG); \
+	fi
 	touch $@
 
 $(F)/u-boot.$(VERSION).fetch.lock:

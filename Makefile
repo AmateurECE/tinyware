@@ -1,6 +1,4 @@
 
-include config.mk
-
 # Root build directory
 B:=$(shell realpath -m build/$(MACHINE))
 # Root source directory
@@ -14,6 +12,8 @@ P:=$(shell realpath -m build/$(MACHINE)/root)
 F:=$(shell realpath -m build/sources)
 # Sysroot, a location to install dependencies for cross compilation
 SYSROOT:=$(shell realpath -m build/$(MACHINE)/sysroot)
+
+include config.mk
 
 PACKAGES+=busybox glibc init linux
 PACKAGES_BUILT=$(addprefix $(B)/,$(addsuffix .lock,$(PACKAGES)))
@@ -40,7 +40,8 @@ $(B)/u-boot.lock: $(B) $(D) $(F)
 	$(MAKE) -C $(B)/u-boot -f $(S)/u-boot.mk \
 		ROOT=$(B)/u-boot D=$(D) F=$(F) \
 		CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) \
-		CONFIG=$(UBOOT_CONFIG) IMAGE_BUILD=$(S)/$(MACHINE).mk
+		DEFCONFIG=$(UBOOT_CONFIG) IMAGE_BUILD=$(S)/$(MACHINE).mk \
+		CUSTOM_CONFIG=$(UBOOT_CUSTOM_CONFIG)
 
 $(B)/busybox.lock: $(B) $(P) $(F)
 	mkdir -p $(B)/busybox
