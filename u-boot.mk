@@ -1,5 +1,5 @@
 
-VERSION=v2023.01
+VERSION=v2021.01
 S:=$(F)/u-boot
 B:=$(ROOT)/build
 

@@ -5,8 +5,11 @@ ifeq (arm,$(ARCH))
 CONFIG+=CC="$(CROSS_COMPILE)gcc -mbe32"
 CONFIG+=CXX="$(CROSS_COMPILE)g++ -mbe32"
 HOST=arm-linux-gnueabihf
-else
+else ifeq (x86_64,$(ARCH))
+CONFIG+=rtlddir=/lib64
 HOST=$(ARCH)-linux-gnu
+else
+$(error "Unsupported architecture $(ARCH)")
 endif
 
 VERSION=2.37
@@ -15,7 +18,7 @@ URL="http://ftp.gnu.org/gnu/glibc/$(ARCHIVE)"
 S:=$(F)/glibc-$(VERSION)
 B:=$(ROOT)/build
 
-CONFIG+=rtlddir=/lib64 BUILD_CC=gcc
+CONFIG+=BUILD_CC=gcc
 
 all: glibc.$(VERSION).install.lock
 
