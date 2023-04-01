@@ -16,7 +16,7 @@ SYSROOT:=$(shell realpath -m build/$(MACHINE)/sysroot)
 include config.mk
 include recipes/kernel-image.mk
 
-PACKAGES+=busybox glibc init linux
+PACKAGES+=busybox glibc init linux evtest
 PACKAGES_BUILT=$(addprefix $(B)/,$(addsuffix .lock,$(PACKAGES)))
 
 INITRAMFS=$(D)/minimal-initramfs.cpio.gz
@@ -59,6 +59,11 @@ $(B)/glibc.lock: $(B) $(P) $(F) $(SYSROOT) $(B)/linux.lock
 		ROOT=$(B)/glibc P=$(P) F=$(F) SYSROOT=$(SYSROOT) \
 		CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH)
 	touch $@
+
+$(B)/evtest.lock: $(B) $(P)
+	mkdir -p $(B)/evtest
+	$(MAKE) -C $(B)/evtest -f $(S)/recipes/evtest.mk \
+		ROOT=$(B)/evtest ARCH=$(ARCH) P=$(P)
 
 $(B)/pxelinux.lock: $(D)
 	$(MAKE) -f $(S)/recipes/pxelinux.mk D=$(D) IMAGE=$(IMAGE) DTB=$(DTB) \
