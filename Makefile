@@ -28,10 +28,10 @@ $(INITRAMFS): $(PACKAGES_BUILT)
 		| cpio --null --create --verbose --format=newc \
 		| gzip --best > $@
 
-$(B)/linux.lock: $(B) $(D) $(F) $(SYSROOT)
+$(B)/linux.lock: $(B) $(P) $(D) $(F) $(SYSROOT)
 	mkdir -p $(B)/linux
 	$(MAKE) -C $(B)/linux -f $(S)/recipes/linux.mk \
-		ROOT=$(B)/linux D=$(D) F=$(F) DTB=$(DTB) \
+		ROOT=$(B)/linux P=$(P) D=$(D) F=$(F) DTB=$(DTB) \
 		CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) IMAGE=$(IMAGE) \
 		CONFIG=$(KERNEL_CONFIG) CUSTOM_CONFIG=$(KERNEL_CUSTOM_CONFIG) \
 		DEST_SYSROOT=$(SYSROOT)

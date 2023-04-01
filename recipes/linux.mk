@@ -17,6 +17,8 @@ all: $(ARTIFACTS) kernel.$(VERSION).headers.lock
 
 $(D)/$(IMAGE): kernel.$(VERSION).build.lock
 	cp $(B)/arch/$(ARCH)/boot/$(IMAGE) $@
+	cd $(S) && make ARCH=$(ARCH) O=$(B) INSTALL_MOD_PATH=$(P) \
+		modules_install
 
 $(D)/$(DTB): kernel.$(VERSION).build.lock
 	cp $(B)/arch/$(ARCH)/boot/dts/$(DTB) $@
@@ -28,6 +30,8 @@ kernel.$(VERSION).headers.lock: kernel.$(VERSION).build.lock
 
 kernel.$(VERSION).build.lock: kernel.$(VERSION).configure.lock
 	cd $(S) && make CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) O=$(B) -j16
+	cd $(S) && make CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) O=$(B) \
+		-j16 modules
 	touch $@
 
 kernel.$(VERSION).configure.lock: $(F)/kernel.$(VERSION).fetch.lock
