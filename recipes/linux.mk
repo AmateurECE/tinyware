@@ -8,10 +8,18 @@ URL="https://git.kernel.org/torvalds/t/$(ARCHIVE)"
 B:=$(ROOT)/build
 S:=$(F)/linux-$(VERSION)
 
-all: $(D)/$(IMAGE) kernel.$(VERSION).headers.lock
+ARTIFACTS+=$(D)/$(IMAGE)
+ifneq ("",$(DTB))
+ARTIFACTS+=$(D)/$(DTB)
+endif
+
+all: $(ARTIFACTS) kernel.$(VERSION).headers.lock
 
 $(D)/$(IMAGE): kernel.$(VERSION).build.lock
 	cp $(B)/arch/$(ARCH)/boot/$(IMAGE) $@
+
+$(D)/$(DTB): kernel.$(VERSION).build.lock
+	cp $(B)/arch/$(ARCH)/boot/dts/$(DTB) $@
 
 kernel.$(VERSION).headers.lock: kernel.$(VERSION).build.lock
 	cd $(S) && make ARCH=$(ARCH) O=$(B) INSTALL_HDR_PATH=$(DEST_SYSROOT) \

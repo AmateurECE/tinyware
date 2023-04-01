@@ -31,7 +31,7 @@ $(INITRAMFS): $(PACKAGES_BUILT)
 $(B)/linux.lock: $(B) $(D) $(F) $(SYSROOT)
 	mkdir -p $(B)/linux
 	$(MAKE) -C $(B)/linux -f $(S)/recipes/linux.mk \
-		ROOT=$(B)/linux D=$(D) F=$(F) \
+		ROOT=$(B)/linux D=$(D) F=$(F) DTB=$(DTB) \
 		CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) IMAGE=$(IMAGE) \
 		CONFIG=$(KERNEL_CONFIG) DEST_SYSROOT=$(SYSROOT)
 	touch $@
