@@ -1,14 +1,6 @@
 
 # Build script for the kernel
 
-ifeq (x86_64,$(ARCH))
-IMAGE=bzImage
-else ifeq (arm,$(ARCH))
-IMAGE=zImage
-else
-$(error "Unsupported architecture $(ARCH)")
-endif
-
 VERSION=6.3-rc3
 ARCHIVE=linux-$(VERSION).tar.gz
 URL="https://git.kernel.org/torvalds/t/$(ARCHIVE)"
