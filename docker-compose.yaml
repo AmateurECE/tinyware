@@ -5,3 +5,16 @@ services:
     network_mode: host
     volumes:
       - "./build/boneblack/deploy:/tftp:ro"
+
+  nfs:
+    image: amateurece/nfs-server:latest
+    volumes:
+      - "./build/boneblack/root:/srv/root"
+      - "./exports.txt:/etc/exports:ro"
+    cap_add:
+      - SYS_ADMIN
+    ports:
+      - "2049:2049"
+      - "111:111"
+      - "32765:32765"
+      - "32767:32767"

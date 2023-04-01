@@ -33,7 +33,8 @@ $(B)/linux.lock: $(B) $(D) $(F) $(SYSROOT)
 	$(MAKE) -C $(B)/linux -f $(S)/recipes/linux.mk \
 		ROOT=$(B)/linux D=$(D) F=$(F) DTB=$(DTB) \
 		CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) IMAGE=$(IMAGE) \
-		CONFIG=$(KERNEL_CONFIG) DEST_SYSROOT=$(SYSROOT)
+		CONFIG=$(KERNEL_CONFIG) CUSTOM_CONFIG=$(KERNEL_CUSTOM_CONFIG) \
+		DEST_SYSROOT=$(SYSROOT)
 	touch $@
 
 $(B)/u-boot.lock: $(B) $(D) $(F)
@@ -61,7 +62,7 @@ $(B)/glibc.lock: $(B) $(P) $(F) $(SYSROOT) $(B)/linux.lock
 
 $(B)/pxelinux.lock: $(D)
 	$(MAKE) -f $(S)/recipes/pxelinux.mk D=$(D) IMAGE=$(IMAGE) DTB=$(DTB) \
-		CONSOLE=$(CONSOLE)
+		BOOTARGS="$(BOOTARGS)" INITRD=$(INITRD)
 	touch $@
 
 $(B)/init.lock: $(S)/init.sh $(P)

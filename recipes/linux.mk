@@ -32,6 +32,11 @@ kernel.$(VERSION).build.lock: kernel.$(VERSION).configure.lock
 
 kernel.$(VERSION).configure.lock: $(F)/kernel.$(VERSION).fetch.lock
 	cd $(S) && make ARCH=$(ARCH) O=$(B) $(CONFIG)
+	if test -n $(CUSTOM_CONFIG); then \
+		cd $(B) && $(S)/scripts/kconfig/merge_config.sh \
+			$(B)/.config \
+			$(CUSTOM_CONFIG); \
+	fi
 	touch $@
 
 $(F)/kernel.$(VERSION).fetch.lock:
