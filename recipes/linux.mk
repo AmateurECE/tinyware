@@ -9,7 +9,7 @@ B:=$(ROOT)/build
 S:=$(F)/linux-$(VERSION)
 
 ARTIFACTS+=$(D)/$(IMAGE)
-ifneq ("",$(DTB))
+ifneq (,$(DTB))
 ARTIFACTS+=$(D)/$(DTB)
 endif
 
