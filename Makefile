@@ -70,7 +70,8 @@ $(B)/pxelinux.lock: $(D)
 		BOOTARGS="$(BOOTARGS)" INITRD=$(INITRD)
 	touch $@
 
-$(B)/init.lock: $(S)/init.sh $(P)
+$(B)/init.lock: $(INIT) $(P)
+	: # For initramfs execution
 	install -D $< $(P)/init
 	: # Pre-populate mountpoints for special filesystems
 	mkdir -p $(P)/sys

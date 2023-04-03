@@ -23,12 +23,17 @@ BOOTARGS+=rw
 BOOTARGS+=nfsrootdebug
 
 PACKAGES:=u-boot pxelinux
+INIT:=$(S)/target/boneblack/init.sh
 
 # QEMU
 else ifeq (qemu,$(MACHINE))
 ARCH:=x86_64
 KERNEL_CONFIG:=defconfig
+KERNEL_CUSTOM_CONFIG:=$(S)/target/qemu/linux.cfg
 CROSS_COMPILE=x86_64-linux-gnu-
+INIT:=$(S)/target/qemu/init.sh
+
+# Else
 else
 $(error "Set the variable MACHINE to be one of {qemu,boneblack}")
 endif

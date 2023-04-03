@@ -51,3 +51,26 @@ To override this, use the boot select pushbutton (S2) to request that the boot
 ROM try booting from the SD card first. The value of S2 is latched after POR,
 so this switch must be pressed when power is applied to the processor, and the
 setting will persist if the reset button (S1) is pushed.
+
+Before booting, start the tftp and nfs services:
+
+```bash-session
+# modprobe nfsd
+# docker-compose create
+# docker-compose start
+```
+
+# Running with Nunchuk Emulator
+
+Start the nunchuk emulator, then use the runqemu.sh script:
+
+```bash-session
+$ cargo run -- --socket-path ${XDG_RUNTIME_DIR}/nunchuk.sock \
+    --device-list i2c-0:52
+# virtiofsd --socket-path ${XDG_RUNTIME_DIR}/virtiofsd.sock \
+    -o source=$ROOT_FILESYSTEM \
+    -o cache=always
+# chown root:$(id -g) ${XDG_RUNTIME_DIR}/virtiofsd.sock
+# chmod g+r,g+w ${XDG_RUNTIME_DIR}/virtiofsd.sock
+$ ./runqemu.sh
+```
